@@ -1,6 +1,10 @@
 class TicTacToe
 
+  # @players... creates an array of all the parameters
+  # @players will assign to this.players
+  # handy for things like implementing extend with a variable number of arguments
   constructor: (@players...) ->
+    # arrays can be defined like so, no trailing commas necessary
     @board = [
       0, 0, 0
       0, 0, 0
@@ -15,8 +19,10 @@ class TicTacToe
     player = 0
     label = ['X', 'O']
 
+    # until game_over is like saying while !game_over
     until game_over
       # prompt the player for input
+      # """ and """ allows us to do multi-line strings with string interpolation
       input = prompt """
         #{ @render(@board) }
 
@@ -25,6 +31,8 @@ class TicTacToe
       """
 
       # no input was given
+      # existential operator 'input?' returns true unless input is undefined or null
+      # 'unless input?' is like saying 'if !input?' but with less punctustion
       unless input?
         alert 'I need a command (or type quit to end game)'
         continue
@@ -40,6 +48,8 @@ class TicTacToe
         alert 'Invalid move, please try again'
         continue
 
+      # destructuring assignment!
+      # now we have variables 'col' and 'row' defined
       [col, row] = position
       index = row*3 + col
       if @board[index] isnt 0
@@ -97,6 +107,7 @@ class TicTacToe
         return null
       else
         # the first match is the full string, we don't need that
+        # slice an array by using a range and omitting the end value i.e. [1..]
         [col, row] = matches[1..]
     else
       # the first match is the full string, we don't need that
@@ -108,6 +119,7 @@ class TicTacToe
 
     # turn column to 0-base and varify range otherwise return null
     row = parseInt(row, 10) - 1
+    # once again, a handy case for chained comparisons
     return null unless 0 <= row <= 2
 
     # return the valid [col, row] pair
@@ -115,6 +127,7 @@ class TicTacToe
 
   game_winner: (board, player, col, row) ->
     # check col
+    # easy way to define a loop by specifying a range
     for _row in [0..2]
       index = _row*3 + col
       break if board[index] isnt player
